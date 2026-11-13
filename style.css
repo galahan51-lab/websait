@@ -1,0 +1,351 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Georgia, serif;
+    color: white;
+
+    background:
+        radial-gradient(
+            ellipse at bottom,
+            #46265d,
+            #1b1235 50%,
+            #080817
+        );
+}
+
+/* Одод */
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 70% 20%, #ffb8f5, transparent),
+        radial-gradient(2px 2px at 40% 80%, white, transparent),
+        radial-gradient(2px 2px at 85% 65%, #ffb8f5, transparent),
+        radial-gradient(2px 2px at 55% 45%, white, transparent);
+
+    background-size: 250px 250px;
+    animation: twinkle 4s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+/* Сар */
+.moon {
+    position: fixed;
+    top: 65px;
+    right: 10%;
+
+    width: 95px;
+    height: 95px;
+
+    border-radius: 50%;
+    background: #ffe5c5;
+
+    box-shadow:
+        0 0 35px #ffb9d9,
+        0 0 90px #bd76ff;
+}
+
+/* Гол хэсэг */
+.container {
+    position: relative;
+    z-index: 2;
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 35px 15px;
+    text-align: center;
+}
+
+h1 {
+    color: #ffb5ee;
+    font-size: clamp(28px, 6vw, 48px);
+    letter-spacing: 4px;
+
+    text-shadow: 0 0 20px #ed7bff;
+}
+
+.subtitle {
+    margin-top: 18px;
+    color: #e6c9f5;
+    font-size: 17px;
+}
+
+.instruction {
+    margin-top: 65px;
+    margin-bottom: 25px;
+    color: #ffc6ef;
+
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: 0.5; }
+}
+
+/* Дугтуй */
+.envelope {
+    position: relative;
+
+    width: min(320px, 82vw);
+    height: 205px;
+
+    cursor: pointer;
+    perspective: 1000px;
+
+    -webkit-tap-highlight-color: transparent;
+
+    filter: drop-shadow(0 0 22px #e879ff);
+}
+
+.back {
+    position: absolute;
+    inset: 0;
+
+    background: #bd75b5;
+    border-radius: 5px;
+}
+
+.front {
+    position: absolute;
+    inset: 0;
+
+    background: #e7a0d5;
+
+    clip-path:
+        polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+
+    border-radius: 5px;
+    z-index: 3;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: #f2b9e7;
+
+    clip-path: polygon(0 0, 100% 0, 50% 58%);
+
+    transform-origin: top center;
+    transition: transform 0.8s ease;
+
+    z-index: 4;
+}
+
+.heart {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #b52881;
+    font-size: 35px;
+    z-index: 5;
+}
+
+.letter-preview {
+    position: absolute;
+
+    left: 7%;
+    top: 10px;
+
+    width: 86%;
+    height: 175px;
+
+    background: #fff1fa;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #d65eae;
+    font-size: 35px;
+
+    transition: transform 0.9s ease;
+    z-index: 2;
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .letter-preview {
+    transform: translateY(-100px);
+}
+
+.bottom-text {
+    margin-top: 65px;
+    color: #e9b9ed;
+}
+
+/* Захидлын цонх */
+.modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 20;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px;
+
+    background: rgba(5, 3, 18, 0.88);
+    backdrop-filter: blur(8px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.4s ease,
+        visibility 0.4s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.letter-content {
+    position: relative;
+
+    width: min(550px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+
+    background: #fff2f8;
+    color: #51334c;
+
+    border-radius: 15px;
+    padding: 35px 25px;
+
+    box-shadow: 0 0 40px #e879ff;
+
+    transform: translateY(30px);
+    transition: transform 0.4s ease;
+}
+
+.modal.show .letter-content {
+    transform: translateY(0);
+}
+
+.close-btn {
+    position: sticky;
+    float: right;
+    top: 0;
+
+    border: none;
+    background: #f5d3eb;
+    color: #8f3478;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.letter-paper h2 {
+    text-align: center;
+    color: #b54b91;
+
+    font-size: 23px;
+    margin: 15px 0 25px;
+}
+
+.letter-text {
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.letter-text p {
+    margin-bottom: 17px;
+}
+
+.ending {
+    text-align: right;
+    color: #bd579d;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+/* Гэрлийн canvas */
+#lightCanvas {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Утас, таблет */
+@media (max-width: 600px) {
+    .moon {
+        width: 65px;
+        height: 65px;
+        top: 25px;
+        right: 7%;
+    }
+
+    .container {
+        padding: 25px 12px;
+    }
+
+    h1 {
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .instruction {
+        margin-top: 55px;
+    }
+
+    .envelope {
+        height: 180px;
+    }
+
+    .letter-content {
+        padding: 25px 18px;
+    }
+
+    .letter-text {
+        font-size: 15px;
+    }
+}
